@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user roles and profile information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier for the user." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "displayName": { "type": "string", "description": "The user's display name." },
+        "role": { "type": "string", "enum": ["admin", "employee", "superuser"], "description": "The user's role in the system." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user profile was created." }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Represents a project that tasks can be assigned to.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique identifier for the project." },
+        "name": { "type": "string", "description": "The name of the project." },
+        "description": { "type": "string", "description": "A brief description of the project." },
+        "createdBy": { "type": "string", "description": "The UID of the user who created the project." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the project was created." }
+      },
+      "required": ["id", "name", "createdBy", "createdAt"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A daily task assigned to a user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique identifier for the task." },
+        "projectId": { "type": "string", "description": "The ID of the project this task belongs to (optional)." },
+        "title": { "type": "string", "description": "The title of the task." },
+        "description": { "type": "string", "description": "A detailed description of what was done or needs to be done." },
+        "completionPercentage": { "type": "number", "description": "The percentage of task completion (0-100)." },
+        "deadline": { "type": "string", "format": "date-time", "description": "The deadline for the task." },
+        "assignedTo": { "type": "string", "description": "The UID of the user assigned to the task." },
+        "assignedBy": { "type": "string", "description": "The UID of the user who assigned the task." },
+        "date": { "type": "string", "format": "date", "description": "The date for which this task is tracked (daily tracking)." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the task was created." }
+      },
+      "required": ["id", "title", "completionPercentage", "assignedTo", "assignedBy", "date", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles."
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Collection of projects."
+    },
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Collection of daily tasks."
+    }
+  }
+}
